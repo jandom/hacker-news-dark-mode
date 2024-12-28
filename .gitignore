@@ -17,3 +17,5 @@ _site
 dev
 node_modules
 test/output/
+
+vendor/
