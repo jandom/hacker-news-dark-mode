@@ -1,0 +1,41 @@
+name: Scrape and Deploy
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"  # every 5 mins
+  workflow_dispatch:
+
+jobs:
+  scrape_and_deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. Check out main
+      - name: Checkout main
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      # 2. Set up Ruby + Python
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      # 3. Install Dependencies
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4
+          bundle install
+
+      # 4. Run your scraper + build
+      - name: Scrape and Build
+        run: |
+          python scrape.py
+          bundle exec jekyll build   # puts final site in ./_site
