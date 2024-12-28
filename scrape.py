@@ -43,7 +43,7 @@ def replace_table_in_index_html(index_path="index.html"):
 
     # 5) Write the updated HTML back to index.html
     with open(index_path, "w", encoding="utf-8") as f:
-        f.write(str(local_soup))
+        f.write(local_soup.prettify())
 
 if __name__ == "__main__":
     replace_table_in_index_html("index.html")
