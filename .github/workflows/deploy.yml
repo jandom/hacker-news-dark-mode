@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      # 1. Check out main
-      - name: Checkout main
+      # 1. Check out master
+      - name: Checkout master
         uses: actions/checkout@v3
         with:
-          ref: main
+          ref: master
 
       # 2. Set up Ruby + Python
       - name: Set up Ruby
