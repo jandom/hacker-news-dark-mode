@@ -48,7 +48,7 @@ jobs:
           # Adjust the excludes as needed
           rsync -av --exclude='.git' --exclude='_site' \
             --exclude='node_modules' --exclude='venv' \
-            main/ gh-pages/
+            master/ gh-pages/
           # Now gh-pages folder has _config.yml, index.html, _posts, etc.
           # Everything GitHub Pages needs to run Jekyll itself
         shell: bash
