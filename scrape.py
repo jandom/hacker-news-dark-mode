@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+HN_BASE = "https://news.ycombinator.com"
 HN_TABLE_SELECTOR = "#hnmain > tr:nth-child(3) > td > table"
 
 def scrape_hn_table():
@@ -16,6 +17,15 @@ def scrape_hn_table():
 
     # Grab the table matching your selector
     table = soup.select_one(HN_TABLE_SELECTOR)
+
+
+    # Convert all <a> tags to absolute links
+    for a_tag in table.find_all("a", href=True):
+        href = a_tag["href"]
+        # If it's not already absolute (starting with http), prepend HN_BASE
+        if "?" in href:
+            # .lstrip("/") ensures we don't accidentally create a double-slash
+            a_tag["href"] = f"{HN_BASE}/{href.lstrip('/')}"    
     
     return table
 
