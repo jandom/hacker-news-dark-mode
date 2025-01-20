@@ -1,0 +1,67 @@
+name: Scrape and Deploy
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"  # every 5 mins
+  workflow_dispatch:
+
+jobs:
+  scrape_and_deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v3
+        with:
+          ref: master
+          path: master
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4
+        working-directory: master
+
+      - name: Scrape and Build
+        run: |
+          python scrape.py
+        working-directory: master
+
+      - name: Check out gh-pages
+        uses: actions/checkout@v3
+        with:
+          ref: gh-pages     # or create it manually first if it doesn't exist
+          path: gh-pages
+
+      - name: Remove existing files from gh-pages
+        run: |
+          # Remove EVERYTHING except the .git folder (which tracks the branch)
+          find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+        working-directory: gh-pages
+
+      - name: Copy Jekyll source to gh-pages
+        run: |
+          # Adjust the excludes as needed
+          rsync -av --exclude='.git' --exclude='_site' \
+            --exclude='node_modules' --exclude='venv' \
+            master/ gh-pages/
+          # Now gh-pages folder has _config.yml, index.html, _posts, etc.
+          # Everything GitHub Pages needs to run Jekyll itself
+        shell: bash
+
+      - name: Commit and Push gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan temp
+          git add .
+          git commit -m "Deploy site $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+          git branch -D gh-pages || true
+          git branch -m gh-pages
+          git push -f origin gh-pages
+        working-directory: gh-pages
+        
