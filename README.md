@@ -4,6 +4,24 @@
 
 ## Local development
 
+### Scraping
+
+Requires Python 3. Set up a virtualenv and install dependencies:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install requests beautifulsoup4 pytest
+```
+
+Run the scraper to refresh `index.html` with the latest HN front page:
+
+```bash
+python scrape.py
+```
+
+### Serving
+
 Requires Ruby 3.4+. If using rbenv:
 
 ```bash
