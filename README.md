@@ -2,6 +2,24 @@
 
 <a href="https://jgthms.com/hacker-news-dark-mode/"><img src="https://raw.githubusercontent.com/jgthms/hacker-news-dark-mode/master/screenshot.png" alt="Hacker News Dark Mode screenshot" style="max-width:100%;" width="1200"></a>
 
+## Local development
+
+Requires Ruby 3.4+. If using rbenv:
+
+```bash
+rbenv install 3.4.2
+rbenv local 3.4.2
+```
+
+Install dependencies and serve:
+
+```bash
+bundle install
+bundle exec jekyll serve
+```
+
+Then open http://localhost:4000.
+
 ## Process
 
 I took the [original CSS file](https://news.ycombinator.com/news.css) and applied as few as possible changes in order to set up a Dark Mode.
