@@ -23,7 +23,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests beautifulsoup4
+          pip install requests beautifulsoup4 pytest
+        working-directory: master
+
+      - name: Run tests
+        run: |
+          pytest test_scrape.py
         working-directory: master
 
       - name: Scrape and Build
