@@ -23,7 +23,7 @@ def scrape_hn_table():
     for a_tag in table.find_all("a", href=True):
         href = a_tag["href"]
         # If it's not already absolute (starting with http), prepend HN_BASE
-        if "?" in href:
+        if not href.startswith(("http://", "https://")):
             # .lstrip("/") ensures we don't accidentally create a double-slash
             a_tag["href"] = f"{HN_BASE}/{href.lstrip('/')}"    
     
