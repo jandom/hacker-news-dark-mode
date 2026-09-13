@@ -1,0 +1,6 @@
+permalink: pretty
+url: https://jandom.github.io/hacker-news-dark-mode
+repo: https://github.com/jandom/hacker-news-dark-mode/
+exclude:
+  - venv
+  - vendor
